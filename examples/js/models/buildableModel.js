@@ -1,11 +1,18 @@
 /**
- A **BuildableModel** is a {{#crossLink "Model"}}{{/crossLink}} that provides a fluent API through which you can
- build it incrementally.
+ A **BuildableModel** is a {{#crossLink "Model"}}{{/crossLink}} that provides a "stateful builder" API through which you can
+ procedurally generate xeogl content.
+
+ <a href="../../examples/#models_BuildableModel_city"><img src="http://i.giphy.com/l0HlPJO1AN01Lz27e.gif"></img></a>
 
  ## Overview
 
- * A BuilderModel implements the [Builder pattern](https://en.wikipedia.org/wiki/Builder_pattern) with a [fluent interface](https://en.wikipedia.org/wiki/Fluent_interface) that  makes it easy to programmatically generate content for xeogl.
- * TODO: more info
+ * A BuilderModel implements the [Builder pattern](https://en.wikipedia.org/wiki/Builder_pattern).
+ * Create various assets within a BuilderModel, such as {{#crossLink "Geometry"}}Geometries{{/crossLink}}
+ and {{#crossLink "Material"}}Materials{{/crossLink}}, then create {{#crossLink "Entity"}}Entities{{/crossLink}} that use those assets.
+ * The BuilderModel then owns those components and will destroy them when you
+ call its {{#crossLink "BuildableModel/clear:method"}}clear(){{/crossLink}} or {{#crossLink "Component/destroy:method"}}destroy(){{/crossLink}} methods.
+ * A BuildableModel can be transformed within World-space by attaching it to a {{#crossLink "Transform"}}{{/crossLink}}.
+ * A BuildableModel provides its World-space boundary as a {{#crossLink "Boundary3D"}}{{/crossLink}}.
 
  ## Examples
 
@@ -94,9 +101,9 @@
          * The asset is given as a configuration object, to be lazy-instantiated as soon as an entity is built from
          * it with {{#crossLink "BuildableModel/entity:method"}}entity(){{/crossLink}}.
          *
-         * ### Usage
+         * #### Usage
          *
-         * Adding a {{#crossLink "PhongMaterial"}}{{/crossLink}} asset with ID "uvGrid":
+         * Adding a {{#crossLink "PhongMaterial"}}{{/crossLink}} asset with ID "gridMaterial":
          *
          * ````javascript
          * buildableModel.asset("gridMaterial", {
@@ -130,7 +137,7 @@
         },
 
         /**
-         * Sets the {{#crossLink "Geometry"}}{{/crossLink}} asset that will be added to
+         * Selects the {{#crossLink "Geometry"}}{{/crossLink}} asset that will be added to
          * each {{#crossLink "Entity"}}{{/crossLink}} subsequently created with
          * {{#crossLink "BuildableModel/entity:method"}}entity(){{/crossLink}}.
          *
@@ -145,7 +152,7 @@
         },
 
         /**
-         * Sets the {{#crossLink "Material"}}{{/crossLink}} asset that will be added to
+         * Selects the {{#crossLink "Material"}}{{/crossLink}} asset that will be added to
          * each {{#crossLink "Entity"}}{{/crossLink}} subsequently created with
          * {{#crossLink "BuildableModel/entity:method"}}entity(){{/crossLink}}.
          *
@@ -208,7 +215,7 @@
          * Sets the order of 3D rotations for each {{#crossLink "Entity"}}{{/crossLink}} subsequently created
          * with {{#crossLink "BuildableModel/entity:method"}}entity(){{/crossLink}}.
          *
-         * ### Usage
+         * #### Usage
          *
          * The X, Y and Z axis are identified as ````0, 1, 2```` respectively.
          *
